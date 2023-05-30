@@ -28,6 +28,7 @@ function MessageBox({ data, user, selectedUser }) {
                 email: user.email,
             },
             to: selectedUser,
+            timestamp:dt,
             date: `${dt.getDate()}/${dt.getMonth() + 1}/${dt.getFullYear()}`,
             time: `${dt.getHours()}:${dt.getMinutes()}`
         }

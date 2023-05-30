@@ -15,7 +15,7 @@ function Messages() {
   const [selected, setSelected] = useState([])
   const [isEmpty, setEmpty] = useState(false)
   useEffect(() => {
-    const unsubscribe = db.collection("messages").orderBy('time').limit(50).onSnapshot((QuerySnapshot) => {
+    const unsubscribe = db.collection("messages").orderBy('time').onSnapshot((QuerySnapshot) => {
       let messages = [];
       QuerySnapshot.forEach((doc) => {
         messages.push(doc.data());

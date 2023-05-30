@@ -272,6 +272,7 @@ export function postArticleAPI(payload) {
                 sharedImg: '',
                 comments: [],
                 likeCount: 0,
+                usersWhoLiked: [],
                 description: payload.description,
             });
             dispatch(setLoading(false));
@@ -408,7 +409,7 @@ export function createNotification(actor, to, type, postId) {
 }
 
 
-export function sendConnection(actor, to) {
+export function sendConnection(actor, to, handler) {
     const dateTime = getCurrentDateTime()
     return (dispatch) => {
         const key = generateKey()
@@ -425,7 +426,7 @@ export function sendConnection(actor, to) {
             message: message
         }
         db.collection('requests').doc(key).set(request).then(e => {
-            alert("Sent Connection Request")
+            handler()
         }).catch(err => {
             alert(err)
         })

@@ -9,6 +9,7 @@ function Profile() {
     const allMessages = useSelector(state => state.userState.chats)
     const dispatch = useDispatch()
     const [buttonMsg, setMsg] = useState('Connect')
+    const [isConnectionSent, setConnectionSent] = useState(false)
     const [isRedirect, setRedirect] = useState(false)
     const [isConnected, setConnected] = useState(false)
     console.log(selectedUser)
@@ -80,8 +81,10 @@ function Profile() {
                     {
                         (selectedUser.uid === user.uid) ? 'Your Profile' : isConnected ? <button onClick={() => {
                             messageUser()
-                        }}>Message</button> : <button onClick={() => {
-                            dispatch(sendConnection(user, selectedUser))
+                        }}>Message</button> : <button disabled={isConnectionSent} onClick={() => {
+                            dispatch(sendConnection(user, selectedUser, ()=>{
+                                setConnectionSent(true)
+                            }))
                             setMsg('Sent Request')
                         }}>{buttonMsg}</button>
                     }
