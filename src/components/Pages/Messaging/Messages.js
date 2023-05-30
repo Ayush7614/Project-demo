@@ -15,13 +15,13 @@ function Messages() {
   const [selected, setSelected] = useState([])
   const [isEmpty, setEmpty] = useState(false)
   useEffect(() => {
-    const unsubscribe = db.collection("messages").orderBy('time').onSnapshot((QuerySnapshot) => {
+    const unsubscribe = db.collection("messages").orderBy('timestamp').onSnapshot((QuerySnapshot) => {
       let messages = [];
       QuerySnapshot.forEach((doc) => {
         messages.push(doc.data());
       });
 
-      setAllMessages(messages.filter(e => e.text !== "START"));
+      setAllMessages(messages);
       var userArray = {}
       messages.map(e => {
         if (e.to.email === user.email && !userArray[e.from.email]) {
@@ -49,9 +49,8 @@ function Messages() {
   }, []);
 
   useEffect(s => {
-    console.log(allMessages.filter(e => e.to.email === selected.email || e.from.email === selected.email))
     if (Object.values(selected).length) {
-      var messagesByUser = allMessages.filter(e => e.to.email === selected.email || e.from.email === selected.email)
+      var messagesByUser = allMessages.filter(e => (e.to.email === selected.email && e.from.email===user.email) || (e.from.email === selected.email && e.to.email===user.email))
       setUserMessages(messagesByUser)
       console.log(messagesByUser)
     }

@@ -15,7 +15,7 @@ function MessageBox({ data, user, selectedUser }) {
             alert("Enter a Message")
             return;
         }
-        if(!selectedUser.name){
+        if (!selectedUser.name) {
             alert("Choose a Chat First")
             setMsg('')
             return;
@@ -28,7 +28,7 @@ function MessageBox({ data, user, selectedUser }) {
                 email: user.email,
             },
             to: selectedUser,
-            timestamp:dt,
+            timestamp: dt,
             date: `${dt.getDate()}/${dt.getMonth() + 1}/${dt.getFullYear()}`,
             time: `${dt.getHours()}:${dt.getMinutes()}`
         }
@@ -52,14 +52,14 @@ function MessageBox({ data, user, selectedUser }) {
             <Chats>
                 {
                     messages.length ? messages.map(msg => {
-                        return <MessageContainer>
+                        return (msg.text !== 'START' ? <MessageContainer>
                             <Message style={{
                                 marginLeft: (msg.from.email === user.email) ? 'auto' : '',
                                 backgroundColor: (msg.from.email === user.email) ? 'purple' : 'grey'
                             }}>
                                 {msg.text}
                             </Message>
-                        </MessageContainer>
+                        </MessageContainer> : '')
                     }) : 'No messages'
                 }
             </Chats>

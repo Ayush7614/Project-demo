@@ -23,17 +23,24 @@ function Profile() {
     }, [])
 
     var messageUser = () => {
-        var isMessaged = allMessages.filter(e => e.to.email === selectedUser.email)
+        var isMessaged = allMessages.filter(e => {
+            if (e.to.email === user.email && e.from.email === selectedUser.email) {
+                return true
+            } else if (e.from.email === user.email && e.to.email === selectedUser.email) {
+                return true
+            }else return false
+        })
 
         if (isMessaged.length != 0) {
             setRedirect(true)
+            alert(JSON.stringify(isMessaged))
         } else {
             var dt = new Date()
             var newMessage = {
                 text: "START",
                 from: {
-                    name:user.name,
-                    email:user.email
+                    name: user.name,
+                    email: user.email
                 },
                 to: {
                     email: selectedUser.email,
@@ -82,7 +89,7 @@ function Profile() {
                         (selectedUser.uid === user.uid) ? 'Your Profile' : isConnected ? <button onClick={() => {
                             messageUser()
                         }}>Message</button> : <button disabled={isConnectionSent} onClick={() => {
-                            dispatch(sendConnection(user, selectedUser, ()=>{
+                            dispatch(sendConnection(user, selectedUser, () => {
                                 setConnectionSent(true)
                             }))
                             setMsg('Sent Request')
